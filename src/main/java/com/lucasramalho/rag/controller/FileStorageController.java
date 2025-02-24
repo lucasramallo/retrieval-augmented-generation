@@ -3,6 +3,7 @@ package com.lucasramalho.rag.controller;
 import com.lucasramalho.rag.config.FileStorageProperties;
 import com.lucasramalho.rag.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/api/files")
@@ -30,13 +32,13 @@ public class FileStorageController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
             Path targetLocation = fileStorageLocation.resolve(fileName);
             file.transferTo(targetLocation);
 
-            fileService.extractTextFromPDF(targetLocation.toString());
+            fileService.processFile(targetLocation.toString(), file.getOriginalFilename());
 
             return ResponseEntity.ok("File uploaded successfully");
         } catch (IOException ex) {
