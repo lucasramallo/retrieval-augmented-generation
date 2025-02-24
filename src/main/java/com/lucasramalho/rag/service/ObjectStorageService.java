@@ -10,6 +10,16 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Serviço responsável pelo gerenciamento de uploads de arquivos para um serviço de armazenamento baseado no MinIO.
+ *
+ * Utiliza a biblioteca MinIO para interagir com um servidor de armazenamento de objetos compatível com o S3.
+ * O serviço configura um cliente MinIO com as credenciais fornecidas e permite o upload de arquivos para um
+ * bucket especificado.
+ *
+ * @author João Lucas
+ * @version 1.0
+ */
 @Service
 public class ObjectStorageService {
     private final MinioClient minioClient;
