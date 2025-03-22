@@ -8,6 +8,8 @@ Este projeto implementa um sistema de **Retrieval-Augmented Generation (RAG)**, 
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 
+![Untitled-2024-12-09-1821](https://github.com/user-attachments/assets/d3c9e764-9266-4bc6-8503-f0d068840f2a)
+
 ## Funcionalidades
 
 - **Upload de Arquivos:** Permite o upload de documentos (atualmente em formato PDF) para o sistema de armazenamento MinIO.
