@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
+import axios from 'axios';
 import styles from '../../styles/Context.module.css';
 import { FileUpload } from 'primereact/fileupload';
 import 'primereact/resources/themes/lara-dark-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { Card, CardContent } from '@/components/ui/card';
 import { FileText } from 'lucide-react';
+import { FileUploadHandlerEvent } from 'primereact/fileupload';
 
 const documents = [
   {
@@ -31,19 +33,44 @@ const truncateText = (text: string, maxLength = 110) => {
   return text.slice(0, maxLength).trim() + '...';
 };
 
+const handleUpload = async (event: FileUploadHandlerEvent) => {
+  const files = event.files;
+
+  for (const file of files) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(`Upload de ${file.name} realizado com sucesso`, response.data);
+    } catch (error) {
+      console.error(`Erro ao enviar ${file.name}:`, error);
+    }
+  }
+};
+
+
 const Page = () => {
   return (
     <div className={styles.container}>
       <div className={styles.uploadSection}>
-        <FileUpload
-          mode="advanced"
-          chooseLabel="Choose"
-          uploadLabel="Upload"
-          cancelLabel="Cancel"
-          customUpload={true}
-          auto={false}
-          className={styles.uploader}
-        />
+      <FileUpload
+        mode="advanced"
+        chooseLabel="Choose"
+        uploadLabel="Upload"
+        cancelLabel="Cancel"
+        customUpload={true}
+        uploadHandler={handleUpload}
+        auto={false}
+        accept="application/pdf"
+        className={styles.uploader}
+      />
+
       </div>
       <h2 className={styles.contextTitle}>Your context</h2>
       <div className={styles.contextGrid}>
