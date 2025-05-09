@@ -3,6 +3,8 @@
 import * as React from "react"
 import Link from "next/link"
 import { Home, MessageCircle, Layers, CircleDot } from "lucide-react"
+import { usePathname } from "next/navigation"
+
 
 import { cn } from "@/lib/utils"
 import {
@@ -51,6 +53,8 @@ const components = [
 ]
 
 export function Header() {
+  const pathname = usePathname()
+
   return (
     <div className={styles.header}>
       <Link href="/">
@@ -58,14 +62,25 @@ export function Header() {
       </Link>
       <NavigationMenu>
         <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuLink href="/chat" className={navigationMenuTriggerStyle()}>
-              Chat
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          <NavigationMenuLink
+            href="/chat"
+            className={cn(
+              navigationMenuTriggerStyle(),
+              pathname === "/chat" && styles.active
+            )}
+          >
+            Chat
+          </NavigationMenuLink>
+
 
           <NavigationMenuItem>
-            <NavigationMenuLink href="/context" className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink
+              href="/context"
+              className={cn(
+                navigationMenuTriggerStyle(),
+                pathname === "/context" && styles.active
+              )}
+            >
               Context
             </NavigationMenuLink>
           </NavigationMenuItem>
@@ -93,7 +108,7 @@ export function Header() {
                 <ListItem href="/docs/installation" title="Fontend">
                   Documentação de como rodar o frontend.
                 </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Github do projeto">
+                <ListItem href="https://github.com/lucasramallo/retrieval-augmented-generation" title="Github do projeto" target="_blank">
                   Link para o repositório do projeto no github.
                 </ListItem>
               </ul>
@@ -119,7 +134,7 @@ const ListItem = React.forwardRef<
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-2">
             {children}
           </p>
         </a>

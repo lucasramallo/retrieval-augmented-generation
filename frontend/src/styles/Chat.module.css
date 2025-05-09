@@ -44,7 +44,7 @@
   
   .inputContainer {
     display: flex;
-    margin-top: 12px;
+    margin-top: 3rem;
     gap: 8px;
   }
   
@@ -53,16 +53,16 @@
     min-height: 50px;
     max-height: 150px;
     resize: none;
-    background-color: #1f1f1f;
+    background-color: #111;
     color: white;
   }
   
   .submitButton {
     padding: 12px 20px;
-    background-color: #2563eb;
+    background-color: #fff;
     border: none;
     border-radius: 8px;
-    color: white;
+    color: black;
     cursor: pointer;
   }
   

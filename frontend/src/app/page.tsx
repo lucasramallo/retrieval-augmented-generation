@@ -16,7 +16,7 @@ export default function Home() {
         <section className={styles.hero}>
           <h1 className={styles.title}>Rag.dev</h1>
           <p className={styles.subtitle}>
-            Plataforma inteligente baseada em RAG (Retrieval-Augmented Generation), combinando recuperação de conhecimento e geração de linguagem natural para fornecer respostas precisas e atualizadas.
+            Este projeto implementa um sistema de Retrieval-Augmented Generation (RAG), no qual documentos são carregados e armazenados para fornecer contexto adicional a uma Large Language Model (LLM). Com base nesses documentos, o sistema oferece uma interface de chat que permite ao usuário obter respostas mais precisas, relevantes e fundamentadas no conteúdo fornecido.
           </p>
           <div className={styles.actions}>
             <a href="/context" className={styles.buttonPrimary}>Começar</a>

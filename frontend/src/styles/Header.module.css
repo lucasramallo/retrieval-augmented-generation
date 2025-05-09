@@ -70,3 +70,7 @@
   line-height: 1.25;
   color: var(--muted-foreground);
 }
+
+.active {
+  background-color: #222;
+}
