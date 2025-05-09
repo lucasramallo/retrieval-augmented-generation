@@ -1,5 +1,5 @@
 .container {
-  background-color: #000;
+  background-color: #040404;
   color: white;
   min-height: 100vh;
   padding: 2rem;
@@ -59,7 +59,7 @@
 }
 
 .icon {
-  color: #4dabf7;
+  color: #ffffff;
   font-size: 30px;  
 }
 
