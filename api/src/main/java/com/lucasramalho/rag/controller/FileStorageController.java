@@ -1,6 +1,7 @@
 package com.lucasramalho.rag.controller;
 
 import com.lucasramalho.rag.config.FileStorageProperties;
+import com.lucasramalho.rag.dto.FileInfoDTO;
 import com.lucasramalho.rag.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,15 +9,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -48,5 +47,12 @@ public class FileStorageController {
             ex.printStackTrace();
             return ResponseEntity.badRequest().body("File upload failed.");
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FileInfoDTO>> getDocuments() {
+        List<FileInfoDTO> files = fileService.getDocuments();
+
+        return ResponseEntity.ok(files);
     }
 }

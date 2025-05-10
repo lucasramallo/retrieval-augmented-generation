@@ -1,5 +1,6 @@
 package com.lucasramalho.rag.service;
 
+import com.lucasramalho.rag.dto.FileInfoDTO;
 import com.lucasramalho.rag.model.DocumentModel;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Serviço responsável pelo processamento de arquivos PDF, extração de texto e upload para um serviço de armazenamento.
@@ -70,6 +72,10 @@ public class FileService {
         }
         return null;
     }
+    public List<FileInfoDTO> getDocuments() {
+        return objectStorageService.listFileInfos();
+    }
+
 
     public void saveDocumentToElasticsearch(String docContent) {
         String docTitle = generateDocTitle(docContent);
