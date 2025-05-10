@@ -36,7 +36,7 @@
 
 .assistantMessage {
   align-self: flex-start;
-  background-color: #1f2937;
+  background-color: #040404;
   color: white;
   padding: 10px 16px;
   border-radius: 18px;
@@ -65,4 +65,44 @@
   border-radius: 8px;
   color: black;
   cursor: pointer;
+}
+
+@keyframes fadePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.fadePulse {
+  animation: fadePulse 2s ease-in-out infinite;
+}
+
+/* styles.css */
+.typingEffect {
+  display: inline-block;
+  overflow: hidden;
+  animation: revealText 2s ease forwards, blink 0.75s step-end infinite;
+  max-height: 0;
+  opacity: 0;
+}
+
+@keyframes revealText {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 1000px;
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
 }

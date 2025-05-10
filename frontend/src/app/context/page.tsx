@@ -9,28 +9,8 @@ import "primereact/resources/primereact.min.css";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText } from "lucide-react";
 import { FileUploadHandlerEvent } from "primereact/fileupload";
-
-// Definindo a tipagem para o fileUploadRef
-const documents = [
-  {
-    title: "Relatório Financeiro Q1",
-    description:
-      "Relatório detalhado do desempenho financeiro da empresa no primeiro trimestre, incluindo receitas, d...",
-    url: "/docs/relatorio-financeiro-q1.pdf",
-  },
-  {
-    title: "Política de Home Office",
-    description:
-      "Documento oficial com diretrizes para o trabalho remoto, incluindo regras de conduta, metas de produ...",
-    url: "/docs/politica-home-office.pdf",
-  },
-  {
-    title: "Contrato de Prestação de Serviços",
-    description:
-      "Contrato firmado entre a empresa e fornecedores terceirizados, especificando escopo de trabalho, pra...",
-    url: "/docs/contrato-prestacao.pdf",
-  },
-];
+import { Progress } from "@/components/ui/progress";
+import { Toast } from "primereact/toast";
 
 export interface FileInfoDTO {
   name: string;
@@ -47,13 +27,28 @@ const Page = () => {
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState<FileInfoDTO[]>([]);
   const [needFetchData, setNeedFetchData] = useState(true);
+  const [progresCounter, setProgresCounter] = useState(0);
 
   const fileUploadRef = useRef<FileUpload | null>(null);
+  const toast = useRef<Toast>(null);
 
   useEffect(() => {
     fetchFiles();
     setNeedFetchData(false);
   }, [needFetchData]);
+
+  useEffect(() => {
+    setTimeout(() => setProgresCounter((prev) => prev + 1), 100);
+  }, [progresCounter, uploading]);
+
+  const showSuccessToast = () => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Sucesso!",
+      detail: "Documento(s) enviados com sucesso!",
+      life: 5000,
+    });
+  };
 
   const handleUpload = async (event: FileUploadHandlerEvent) => {
     const files = event.files;
@@ -84,6 +79,7 @@ const Page = () => {
       }
     }
 
+    showSuccessToast();
     setUploading(false);
     setNeedFetchData(true);
 
@@ -108,6 +104,7 @@ const Page = () => {
 
   return (
     <div className={styles.container}>
+      <Toast ref={toast} />
       <div className={styles.uploadSection}>
         <FileUpload
           ref={fileUploadRef}
@@ -122,15 +119,20 @@ const Page = () => {
           accept="application/pdf"
           className={styles.uploader}
           disabled={uploading}
+          emptyTemplate={
+            <p className="m-0">Drag and drop files to here to upload.</p>
+          }
         />
+        {uploading && <Progress value={0} />}
       </div>
       <h2 className={styles.contextTitle}>Your context</h2>
       <div className={styles.contextGrid}>
+        {files.length === 0 && <span>No context yet.</span>}
         {files.map((doc, index) => (
           <Card key={index} className={styles.card}>
             <CardContent className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <FileText size={25} className={styles.icon} />
+                <i className="pi pi-file-pdf"></i>
                 <h3 className={styles.title}>{doc.name}</h3>
               </div>
               <p className={styles.description}>

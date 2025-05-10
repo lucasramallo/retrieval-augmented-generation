@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "../../styles/Chat.module.css";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
+import { BounceLoader } from "react-spinners";
 
 interface Message {
   sender: "user" | "assistant";
@@ -22,17 +23,9 @@ export interface ResponseDTO {
 export default function ChatScreen() {
   const [messages, setMessages] = useState<Message[]>([
     { sender: "assistant", text: "Olá! Em que posso te ajudar hoje?" },
-    {
-      sender: "user",
-      text: "Qual a diferença entre IA simbólica e conexionista?",
-    },
-    {
-      sender: "assistant",
-      text: "A IA simbólica usa lógica e regras explícitas, enquanto a conexionista se baseia em redes neurais e aprendizado com dados.",
-    },
   ]);
   const [input, setInput] = useState("");
-  const [response, setResponse] = useState("");
+  const [waitingResponse, setWaitingResponse] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -61,6 +54,12 @@ export default function ChatScreen() {
 
     if (!input.trim()) return;
 
+    const newMessage: Message = { sender: "user", text: input };
+    setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+
+    setWaitingResponse(true);
+
     try {
       const res = await sendPrompt(input);
       const assistantReply: Message = {
@@ -68,16 +67,13 @@ export default function ChatScreen() {
         text: res.content,
       };
 
-      const newMessage: Message = { sender: "user", text: input };
-      setMessages((prev) => [...prev, newMessage]);
-      setInput("");
-
       setTimeout(() => {
         setMessages((prev) => [...prev, assistantReply]);
       }, 500);
-      setResponse(res.content);
+
+      setWaitingResponse(false);
     } catch (e) {
-      setResponse("Erro ao buscar resposta.");
+      console.log("Erro ao buscar resposta.");
     }
   };
 
@@ -93,10 +89,25 @@ export default function ChatScreen() {
                 : styles.assistantMessage
             }
           >
-            {msg.text}
+            <span
+              className={
+                messages[messages.length - 1] === msg &&
+                msg.sender === "assistant"
+                  ? styles.typingEffect
+                  : ""
+              }
+            >
+              {msg.text}
+            </span>
           </div>
         ))}
         <div ref={messagesEndRef} />
+        {waitingResponse && (
+          <div className="flex gap-2 items-center">
+            <BounceLoader color="#fff" loading={true} size={30} />
+            <div className={styles.fadePulse}>Buscando resposta...</div>
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className={styles.inputContainer}>
