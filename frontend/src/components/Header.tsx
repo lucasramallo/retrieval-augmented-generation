@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { Home, MessageCircle, Layers, CircleDot } from "lucide-react"
-import { usePathname } from "next/navigation"
+import * as React from "react";
+import Link from "next/link";
+import { CircleDot } from "lucide-react";
+import { usePathname } from "next/navigation";
 
-
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,45 +14,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
-import styles from "../styles/Header.module.css"
-
-const components = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description: "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description: "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description: "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-]
+import styles from "../styles/Header.module.css";
 
 export function Header() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div className={styles.header}>
@@ -71,7 +37,6 @@ export function Header() {
           >
             Chat
           </NavigationMenuLink>
-
 
           <NavigationMenuItem>
             <NavigationMenuLink
@@ -102,23 +67,26 @@ export function Header() {
                     </NavigationMenuLink>
                   </Link>
                 </li>
-                <ListItem href="/docs" title="Backend">
+                <ListItem href="/apidoc" title="Api">
                   Documentação de como rodar o backend.
                 </ListItem>
-                <ListItem href="/docs/installation" title="Fontend">
+                <ListItem href="/frontdoc" title="Fontend">
                   Documentação de como rodar o frontend.
                 </ListItem>
-                <ListItem href="https://github.com/lucasramallo/retrieval-augmented-generation" title="Github do projeto" target="_blank">
+                <ListItem
+                  href="https://github.com/lucasramallo/retrieval-augmented-generation"
+                  title="Github do projeto"
+                  target="_blank"
+                >
                   Link para o repositório do projeto no github.
                 </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-
         </NavigationMenuList>
       </NavigationMenu>
     </div>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<
@@ -128,11 +96,7 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(styles.linkItem, className)}
-          {...props}
-        >
+        <a ref={ref} className={cn(styles.linkItem, className)} {...props}>
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-2">
             {children}
@@ -140,8 +104,8 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+ListItem.displayName = "ListItem";
 
 export default Header;

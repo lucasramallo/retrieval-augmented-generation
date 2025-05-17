@@ -7,7 +7,6 @@ import { FileUpload } from "primereact/fileupload";
 import "primereact/resources/themes/lara-dark-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileText } from "lucide-react";
 import { FileUploadHandlerEvent } from "primereact/fileupload";
 import { Progress } from "@/components/ui/progress";
 import { Toast } from "primereact/toast";
